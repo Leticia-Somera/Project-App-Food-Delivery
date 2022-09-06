@@ -1,5 +1,6 @@
 .meals {
-  max-width: 60rem;
+  text-align: left;  
+  max-width: 50%;
   width: 90%;
   margin: 2rem auto;
   animation: meals-appear 1s ease-out forwards;
@@ -9,6 +10,13 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.meals-image img{
+  display: inline-block;
+  /*text-align: left;*/
+  width: 35%;
+  border-radius: 12px;
 }
 
 @keyframes meals-appear {

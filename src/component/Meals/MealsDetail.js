@@ -4,7 +4,8 @@ const MealsDetail = () => {
     return (
         <section className={classes.summary}>
             <h2>Welcome to Hexafood!</h2>
-            <p>Enjoy our delicious food, you can choose since an exquisite cheese table to a sweet dessert from our menu.</p>
+            <p>Delicious food for developers! <br/>Snacks for those late night coding</p>
+
 
         </section>
 

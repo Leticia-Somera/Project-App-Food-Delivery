@@ -13,20 +13,21 @@ const MealItem = props => {
             id: props.id,
             name: props.name,
             amount: amount,
-            price: props.price
+            price: props.price,
+            image: props.image
         });
     };
 
     return (
     <li className={classes.meal}>
         <div>
+            <div><img src={props.image} alt={props.name} /></div>
             <h3>{props.name}</h3>
-            <div>{props.description}</div>
+            <div className={classes.description}>{props.description}</div>
             <div className={classes.price}>{price}</div>
         </div>
             <MealItemForm onAddToCart={addToCartHandler} />
         <div>
-
         </div>
         
 

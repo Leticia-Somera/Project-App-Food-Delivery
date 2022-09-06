@@ -3,18 +3,19 @@
   }
   
   .form button {
+    width: 8rem;
     font: inherit;
     cursor: pointer;
-    background-color: #8a2b06;
-    border: 1px solid #8a2b06;
+    background-color: #FD8900;
+    border: 1px solid #FD8900;
     color: white;
-    padding: 0.25rem 2rem;
+    padding: 0.25rem 1rem;
     border-radius: 20px;
     font-weight: bold;
   }
   
   .form button:hover,
   .form button:active {
-    background-color: #641e03;
-    border-color: #641e03;
+    background-color: #FD6A00;
+    border-color: #FD6A00;
   }

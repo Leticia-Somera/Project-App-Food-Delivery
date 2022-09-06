@@ -27,6 +27,7 @@ const Cart = props => {
             name={item.name} 
             amount={item.amount} 
             price={item.price} 
+            image={item.image}
             onRemove={cartItemRemoveHandler.bind(null, item.id)}
             onAdd={cartItemAddHandler.bind(null, item)} />
             )}
