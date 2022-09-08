@@ -15,9 +15,9 @@ const Header = props => {
                 <img className={classes['logo-img']} src={logo} alt="Hexafood logo"/>
             </div>
             <div className={classes['header-buttons']}>
-                <HeaderOrdersButton onClick={props.onShowOrder} className={classes['header-small-buttons']}/>
-                <HeaderCartButton onClick={props.onShowCart} className={classes['header-cart-button']}/>
-                <HeaderLogoutButton onClick={props.onShowLog} className={classes['header-small-buttons']}/>   
+                <HeaderOrdersButton onClick={props.onShowOrder} className={classes['header-small-buttons']} type='button'/>
+                <HeaderCartButton onClick={props.onShowCart} className={classes['header-cart-button']} type='button'/>
+                <HeaderLogoutButton onClick={props.onShowLog} className={classes['header-small-buttons']} type='button'/>   
             </div>                     
         </header>
         <div className={classes['header-image']}>

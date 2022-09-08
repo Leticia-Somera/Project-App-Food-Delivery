@@ -16,7 +16,7 @@ const HeaderOrdersButton = props => {
     const btnLoginClasses = `${classes.button} ${btnLoginIsHighLighted ? classes.bump : ''}`;*/
     
     return (
-        <button className={classes.button} onClick={props.onClick}>  
+        <button className={classes.button} onClick={props.onClick} type='button' >  
             <span className={classes.icon}>
                 <OrderIcon />
             </span>          

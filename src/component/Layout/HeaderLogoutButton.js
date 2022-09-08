@@ -21,7 +21,7 @@ const HeaderLogoutButton = props => {
     };*/
         
     return (
-            <button className={classes.button}>            
+            <button className={classes.button} type='button'>            
                 <span className={classes.icon}>
                     <LogoutIcon />
                 </span>

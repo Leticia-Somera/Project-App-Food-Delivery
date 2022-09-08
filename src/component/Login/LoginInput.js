@@ -50,6 +50,7 @@ const LoginInput = props => {
         resetEmailInput();
     };
     const CartProviderHandler = () => {
+        console.log('test submit button');
         setIsCartProvider(true);
     };
 
@@ -88,7 +89,7 @@ const LoginInput = props => {
                 {emailInputHasError && <p className={classes['error-text']} >Email must not be empty</p>}
             </div>
             <div>
-                <button disabled={!formIsValid} className={classes['form-actions']} onClick={CartProviderHandler} >Submit</button>
+                <button disabled={!formIsValid} type="button"  className={classes['form-actions']} onClick={CartProviderHandler} >Submit</button>
             </div>
         </form>
     );
