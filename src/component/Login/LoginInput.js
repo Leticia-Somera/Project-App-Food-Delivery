@@ -13,15 +13,6 @@ const LoginInput = props => {
     const [cartIsShown, setCartIsShown] = useState(false);
    
     const { 
-        value: inputUsername, 
-        isValid: inputUsernameIsValid,
-        hasError: usernameInputHasError, 
-        valueChangeHandler: usernameChangeHandler, 
-        inputBlurHandler: usernameBlurHandler,
-        reset: resetUsernameInput
-    } = useInput(value => value.trim() !== '');
-
-    const { 
         value: inputEmail, 
         isValid: inputEmailIsValid,
         hasError: emailInputHasError, 
@@ -29,28 +20,37 @@ const LoginInput = props => {
         inputBlurHandler: emailBlurHandler,
         reset: resetEmailInput
     } = useInput(value => value.includes('@'));
+
+    const { 
+        value: inputPassword, 
+        isValid: inputPasswordIsValid,
+        hasError: passwordInputHasError, 
+        valueChangeHandler: passwordChangeHandler, 
+        inputBlurHandler: passwordBlurHandler,
+        reset: resetPasswordInput
+    } = useInput(value => value.trim() !== '');
         
     let formIsValid = false;    
 
-    if(inputUsernameIsValid && inputEmailIsValid){ 
+    if(inputEmailIsValid && inputPasswordIsValid){ 
         formIsValid = true;
     }
 
     const formSubmitHandler = event => {
         event.preventDefault();
 
-        if(!inputUsernameIsValid){
+        if(!inputEmailIsValid){
             return;
         }
        
-        console.log('Submited!');
-        console.log(inputUsername, inputEmail);
+       // console.log('Submited!');
+       // console.log(inputEmail, inputPassword);
         
-        resetUsernameInput();
         resetEmailInput();
+        resetPasswordInput();
     };
     const CartProviderHandler = () => {
-        console.log('test submit button');
+       // console.log('test submit button');
         setIsCartProvider(true);
     };
 
@@ -69,24 +69,26 @@ const LoginInput = props => {
     const showForm = (
         <form onSubmit={formSubmitHandler}  className={classes['form-show']} >
             <div className={classes['form-control']}>
-                <label htmlFor="username">Username</label>
-                <input  
-                type='text' 
-                id='username' 
-                onChange={usernameChangeHandler}
-                onBlur={usernameBlurHandler} 
-                value={inputUsername} />
-                {usernameInputHasError && <p className={classes['error-text']} >Username must not be empty</p>}
-            </div>
-            <div className={classes['form-control']}>
                 <label htmlFor="email">Email</label>
                 <input  
-                type='text' 
+                type='email' 
                 id='email' 
+                placeholder='Your Email'
                 onChange={emailChangeHandler}
                 onBlur={emailBlurHandler} 
                 value={inputEmail} />
-                {emailInputHasError && <p className={classes['error-text']} >Email must not be empty</p>}
+                {emailInputHasError && <p className={classes['error-text']} >Username must not be empty</p>}
+            </div>
+            <div className={classes['form-control']}>
+                <label htmlFor="password">Password</label>
+                <input  
+                type='password' 
+                id='password' 
+                placeholder='Your Password'
+                onChange={passwordChangeHandler}
+                onBlur={passwordBlurHandler} 
+                value={inputPassword} />
+                {passwordInputHasError && <p className={classes['error-text']} >Password must not be empty</p>}
             </div>
             <div>
                 <button disabled={!formIsValid} type="button"  className={classes['form-actions']} onClick={CartProviderHandler} >Submit</button>
