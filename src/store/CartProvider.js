@@ -14,16 +14,18 @@ const cartReducer = (state, action) => {
         
         const updatedTotalAmount = state.totalAmount + (action.item.price * action.item.amount);   
         let updatedItems;
+        let updatedItem;
 
         if(existingCartItem) {
             const updatedItem = {
                 ...existingCartItem,
-                amount: existingCartItem.amount + 1
+                amount: existingCartItem.amount + action.item.amount
             };
             updatedItems = [...state.items];
             updatedItems[existingCartItemIndex] = updatedItem;
         } else {
-            updatedItems = state.items.concat(action.item);
+            updatedItem = {...action.item}; 
+            updatedItems = state.items.concat(updatedItem);
         }
         
         return {
@@ -43,7 +45,7 @@ const cartReducer = (state, action) => {
         if(existingItem.amount === 1) {
             updatedItems = state.items.filter(item => item.id !== action.id);
         } else {
-            const updatedItem = {...existingItem, amount: existingItem.amount -1}
+            const updatedItem = {...existingItem, amount: existingItem.amount-1}
             updatedItems = [...state.items]
             updatedItems[existingCartItemIndex] = updatedItem;
         }
@@ -53,10 +55,10 @@ const cartReducer = (state, action) => {
             totalAmount: updatedTotalAmount
         };
     };
-
+/*
     if(action.type === 'CLEAR') {
         return defaultCartState;
-    }
+    }*/
 
     return defaultCartState;
 };
@@ -71,21 +73,21 @@ const CartProvider = props => {
     const removeItemFromCartHandler = id => {
         dispatchCartAction({type: 'REMOVE', id:id})
     };
-
+/*
     const clearCartHandler = id => {
         dispatchCartAction({ type: 'CLEAR', id:id});
-    };
+    };*/
 
     const cartContext = {
         items: cartState.items,
         totalAmount: cartState.totalAmount,
         addItem: addItemToCartHandler,
         removeItem: removeItemFromCartHandler,
-        clearCart: clearCartHandler 
+        //clearCart: clearCartHandler 
     };
 
     return (        
-            <CartContext.Provider value={cartContext} onClose={props.onClose} >
+            <CartContext.Provider value={cartContext} >
                 {props.children}
             </CartContext.Provider>        
     ); 

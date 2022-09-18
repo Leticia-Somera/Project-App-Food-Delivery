@@ -1,0 +1,39 @@
+.error {
+    text-align: center;
+    color: red;
+  }
+
+.total {
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-weight: bold;
+font-size: 1.5rem;
+margin: 1rem 0;
+}
+
+.actions button {
+    font: inherit;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #ffa900;
+    padding: 0.5rem 2rem;
+    border-radius: 25px;
+    margin-left: 1rem;
+  }
+  
+  .actions button:hover,
+  .actions button:active {
+    background-color: #FF710D;
+    border-color: #FF710D;
+    color: white;
+  }
+  
+  .actions .button--alt {
+    color:  #FF710D;
+  }
+  
+  .actions .button {
+    background-color: #ffa900;
+    color: white;
+  }

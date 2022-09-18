@@ -13,15 +13,11 @@ const LogoutIcon = () => {
   };
 
 const HeaderLogoutButton = props => {
-    /*const [btnLogoutIsHighLighted, setBtnLogoutIsHighLighted] = useState(false);
-
-    const logoutHandler = event => {        
-        setBtnLogoutIsHighLighted(true);
-        console.log('logout handlar');        
-    };*/
-        
+    
     return (
-            <button className={classes.button} type='button'>            
+            <button 
+            className={classes.button} 
+            onClick={props.onClick} >            
                 <span className={classes.icon}>
                     <LogoutIcon />
                 </span>
@@ -31,14 +27,3 @@ const HeaderLogoutButton = props => {
 }
 
 export default HeaderLogoutButton;
-
-/*
-<button className={classes.button} onClick={logoutHandler}>            
-                <span className={classes.icon}>
-                    <LogoutIcon />
-                </span>
-                <span className={classes.label}>Logout</span> 
-                         
-            </button> 
-            {btnLogoutIsHighLighted && <LoginInput />}  
- */

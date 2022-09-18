@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import Modal from '../UI/Modal';
 import classes from './Cart.module.css';
 import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
-import Swal from 'sweetalert2';
+//import Swal from 'sweetalert2';
 
 const Cart = props => {
-    const [isConfirmed, setIsConfirmed] = useState(false);
+    //const [isConfirmed, setIsConfirmed] = useState(false);
     const cartCtx = useContext(CartContext);
     const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
     const hasItems = cartCtx.items.length > 0;
@@ -15,96 +15,96 @@ const Cart = props => {
         cartCtx.removeItem(id);
     };
 
-    const cartItemAddHandler = item => {
-        cartCtx.addItem(item);
-    };   
+    const submitedOrderHandler = () => {
 
-    const submitedOrderHandler = (order) => {
-
-        Swal.fire({
+        /*Swal.fire({
             icon: 'success',
             title: 'Your order has been successfully created'
-          })
+          });*/
 
         let items = [];
         let orderDate = new Date();
-
-        //console.log(orderDate.toISOString().split('T')[0])
         
         cartCtx.items.forEach(item => {
             const orderProducts = {                 
-                "id": item.id,
-                "num_products": item.amount,
+                "num_products": item.amount,                
+                "product": {
+                    "id": item.id
+                },
             }
             items.push(orderProducts);
-            console.log(orderProducts);
+            //console.log(orderProducts);
         })
         
         const newOrder = {
-            "order": {
-                "order_date": orderDate.toISOString().split('T')[0],
+           // "order": {
                 "status": "CREATED",
                 "total_price": cartCtx.totalAmount,
-                "user": {
+                "order_date": orderDate.toISOString().split('T')[0],
+                "user":{
                     "id": 1
                 },
-                "orderProducts": [{items}]
-            }
-            
-
-        }
+                "orderProducts": items
+          //  }  
+        };
         
-        console.log(newOrder);
-
+        //console.log(newOrder);
  
-        setIsConfirmed(true); 
+        //setIsConfirmed(true); 
         
-        fetch('http://localhost:8000/orders', {
+        fetch('http://localhost:8000/order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newOrder)            
-        }).then(resp => {
-            console.log(resp);
+        }).then(response => {
+            console.log(response);
             cartCtx.items.forEach(item => {
                 let allItems = item.amount;
                 console.log("all Items: " + allItems);
                 while(allItems > 0) {
                     cartCtx.removeItem(item.id);
-                    allItems = allItems--;
+                    allItems = allItems - 1;
                     
                 }
-            })
+            });
+
+            cartCtx.totalAmount = 0;
+            props.onClose();
+           // props.SubmitedOrderHandler();
+           // console.log(response.json());
+           // return response.json();
 
         });
-        
     };
-/*
-    const confirmHandler = (event) => {
-        event.preventDefault();
-        setIsConfirmed(true);  
 
-        
-    };
-*/
+    
+    const cartItemAddHandler = item => {
+        cartCtx.addItem({...item, amount: 1});
+    };   
+
     const cartItems = (
         <ul className={classes['cart-items']}>
-            {cartCtx.items.map(item => 
-                <CartItem 
-                key={item.id} 
-                name={item.name} 
-                amount={item.amount} 
-                price={item.price} 
-                image={item.image}
-                onRemove={cartItemRemoveHandler.bind(null, item.id)}
-                onAdd={cartItemAddHandler.bind(null, item)} />
+            {cartCtx.items.map(item => {
+                return (
+                    <CartItem 
+                    key={item.id} 
+                    name={item.name} 
+                    amount={item.amount} 
+                    price={item.price} 
+                    image={item.image}
+                    onRemove={cartItemRemoveHandler.bind(null, item.id)}
+                    onAdd={cartItemAddHandler.bind(null, item)} />
+                );
+            }
+                
                 )}            
         </ul>
         );
 
     return (
-        <Modal onClose={props.onClose} >
+        <Modal onClick={props.onClose} >
             {cartItems}
             <div className={classes.total}>
                 <span>Total Amount</span>
@@ -113,9 +113,8 @@ const Cart = props => {
             <div className={classes.actions}>
                 <button className={classes['button--alt']} onClick={props.onClose} >Close</button>
                 {hasItems && <button className={classes.button} onClick={submitedOrderHandler} >Confirm</button>}                           
-                {hasItems && <button className={classes['button--alt']} type='button' onClick={props.onClose} >Cancel</button>}
-            </div>
-          
+                {hasItems && <button className={classes['button--alt']}  onClick={props.onClose} >Cancel</button>}
+            </div>          
         </Modal>
     );
 };

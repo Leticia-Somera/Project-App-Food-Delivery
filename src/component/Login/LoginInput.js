@@ -114,8 +114,8 @@ const LoginInput = props => {
     return (
         <div className={classes.form}>
             <div className={classes['header-image']}>
-            <img src={mealsHeader} alt='header_hexafood' />
-        </div>
+                <img src={mealsHeader} alt='header_hexafood' />
+            </div>
             {!isCartProvider && showForm}
             {isCartProvider && showCartProvider}
         </div>       

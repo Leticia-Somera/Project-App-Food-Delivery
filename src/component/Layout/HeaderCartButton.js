@@ -10,7 +10,7 @@ const HeaderCartButton = props => {
 
     const { items } = cartCtx;
 
-    const numberOrCartItems = items.reduce((currNumber, item) => {
+    const numberOfCartItems = items.reduce((currNumber, item) => {
         return currNumber + item.amount;
     }, 0);
 
@@ -38,7 +38,7 @@ const HeaderCartButton = props => {
                 <CartIcon />
             </span>
             <span className={classes.label}>Cart</span>
-            <span className={classes.badge}>{numberOrCartItems}</span>
+            <span className={classes.badge}>{numberOfCartItems}</span>
             
         </button>
     )

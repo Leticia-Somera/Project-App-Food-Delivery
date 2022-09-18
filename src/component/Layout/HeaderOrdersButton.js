@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import classes from './HeaderOrdersButton.module.css';
 
 const OrderIcon = () => {
@@ -10,18 +11,27 @@ const OrderIcon = () => {
     );
   };
 
-const HeaderOrdersButton = props => {
-    /*const [btnLoginIsHighLighted, setBtnLoginIsHighLighted] = useState(false);
-    
-    const btnLoginClasses = `${classes.button} ${btnLoginIsHighLighted ? classes.bump : ''}`;*/
+const HeaderOrdersButton = props => {     
     
     return (
-        <button className={classes.button} onClick={props.onClick} type='button' >  
+        <Fragment>
+            {!props.showOrdersSummary && !props.showDetails && <button 
+            className={classes.button} 
+            onClick={props.onClick} 
+            >  
             <span className={classes.icon}>
                 <OrderIcon />
             </span>          
             <span className={classes.label}>Orders</span>            
-        </button>
+            </button>}
+
+            {props.showOrdersSummary && <button 
+            className={classes.button} 
+            onClick={props.onHideOrdersSummary} 
+            >                
+            <span className={classes.label}>Home</span>            
+            </button>}
+        </Fragment>        
     )
 }
 

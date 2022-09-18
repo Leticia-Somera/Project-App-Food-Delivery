@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import React from 'react';
 
 import HeaderCartButton from "./HeaderCartButton";
 import HeaderLogoutButton from "./HeaderLogoutButton";
@@ -9,21 +9,21 @@ import classes from './Header.module.css';
 
 const Header = props => {
     return (
-    <Fragment>
+    <React.Fragment>
         <header className={classes.header}>
             <div className={classes['header-logo']}>
                 <img className={classes['logo-img']} src={logo} alt="Hexafood logo"/>
             </div>
             <div className={classes['header-buttons']}>
-                <HeaderOrdersButton onClick={props.onShowOrder} className={classes['header-small-buttons']} type='button'/>
-                <HeaderCartButton onClick={props.onShowCart} className={classes['header-cart-button']} type='button'/>
-                <HeaderLogoutButton onClick={props.onShowLog} className={classes['header-small-buttons']} type='button'/>   
+                <HeaderOrdersButton onClick={props.onShowOrder} showOrdersSummary={props.showOrdersSummary} showDetails={props.showDetails} onHideOrdersSummary={props.onHideOrdersSummary} className={classes['header-small-buttons']} />
+                <HeaderCartButton onClick={props.onShowCart} className={classes['header-cart-button']} />
+                <HeaderLogoutButton onClick={props.onShowLog} className={classes['header-small-buttons']} />   
             </div>                     
         </header>
         <div className={classes['header-image']}>
             <img src={mealsHeader} alt='header_hexafood' />
         </div>
-    </Fragment>
+    </React.Fragment>
     );
 };
 
