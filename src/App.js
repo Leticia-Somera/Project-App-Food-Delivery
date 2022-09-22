@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 function App() {
   //const [cartProviderIsShown, setCartProviderIsShown] = useState(false);
   const [cartIsShown, setCartIsShown] = useState(false);
-  const [showOrderSummary, setShowOrderSummary] = useState(false);
+  const [showOrdersSummary, setShowOrdersSummary] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [token, setToken] = useState(null);
   const [idCustomer, setIdCustomer] = useState(null);
@@ -22,12 +22,14 @@ function App() {
 
   
   const getIdCustomer = (token, email) => {
-    fetch('http://localhost:8000/idUser', {
+    fetch('http://localhost:8000/user/id', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer' + localStorage.getItem('token') 
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+       // 'Access-Control-Request-Headers': 'Content-Type, Authorization'         
       },
+      //mode:'no-cors',
       body: JSON.stringify({
         username: email
       })
@@ -35,13 +37,13 @@ function App() {
       if(response.status === 401) {
         throw new Error('Unauthorized operation.');
       }
-      if(response.status === 442) {
+      if(response.status === 422) {
         throw new Error('Validation failed.');
       }
-      if (response.status !== 200 && response.status !== 201) {
-        console.log('Http Error!');
+      if (response.status !== 200 && response.status !== 201) {        
         throw new Error('You could not be authenticated. Try again!');
       }
+     
       return response.json();
     }).then(data => {
       setIdCustomer(data);
@@ -49,8 +51,9 @@ function App() {
       return data;
     }).catch(error => {
       setHttpError(error.message);
-      console.log(error);
+      //console.log(error);
       setAuthLoading(false);
+      //setIsAuth(false);
     })
   };
 
@@ -62,9 +65,10 @@ function App() {
   }
 
   const loginHandler = (event, authData) => {
+    //console.log('login');
     event.preventDefault();
     setAuthLoading(true);
-    fetch('http://localhost:8000/authenticate', {
+    fetch('http://localhost:8000/authenticate', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -81,7 +85,7 @@ function App() {
         throw new Error('Validation failed.');
       }
       if (response.status !== 200 && response.status !== 201) {
-        console.log('Http Error!');
+        //console.log('Http Error!');
         throw new Error('You could not be authenticated. Try again!');
       }
       return response.json();
@@ -89,16 +93,18 @@ function App() {
       setIsAuth(true);
       setToken(data.token);
       setAuthLoading(false);
+     
       getIdCustomer(data.token, authData.username);
+      
       localStorage.setItem('token', data.token);
 
       const remainingMiliseconds = 60 * 60 * 1000;
       const expiryDate = new Date(
-        new Date().getItem() + remainingMiliseconds
+        new Date().getTime() + remainingMiliseconds
       );
       localStorage.setItem('expiryDate', expiryDate.toISOString());
     }).catch(error => {        
-        console.log(error);
+        //console.log(error);
         setIsAuth(false);
         setAuthLoading(false);
         setHttpError(error.message);
@@ -114,12 +120,12 @@ function App() {
     }
 
     const showOrders = () => {
-      setShowOrderSummary(true);
+      setShowOrdersSummary(true);
       setShowDetails(false);
     }
 
     const closeOrders = () => {
-      setShowOrderSummary(false);
+      setShowOrdersSummary(false);
     }
 
     const showOrderCreated = () => {
@@ -133,7 +139,7 @@ function App() {
 
     const onShowDetails = () => {
       setShowDetails(true);
-      setShowOrderSummary(false);
+      setShowOrdersSummary(false);
     }
 
     const onCloseDetails = () => {
@@ -155,12 +161,12 @@ function App() {
     <CartProvider>
         {isAuth && <Fragment>
         {cartIsShown && <Cart onClose={hideCartHandler} onCreateOrder={showOrderCreated} />}
-        <Header onShowCart={showCartHandler} onShowOrd={showOrders} onLogout={logoutHandler} showOrderSummary={showOrderSummary} showDetails={showDetails} onHideOrderSummary={closeOrders} />
+        <Header onShowCart={showCartHandler} onShowOrd={showOrders} onShowLogout={logoutHandler} showOrdersSummary={showOrdersSummary} showDetails={showDetails} onHideOrdersSummary={closeOrders} />
         
         <main>
-          {!showOrderSummary && !showDetails && <Meals />}  
-          {showOrderSummary && <OrderRegister onShowDetails={onShowDetails} /> }
-          {!showOrderSummary && showDetails && <FullOrder onClose={onCloseDetails} /> }
+          {!showOrdersSummary && !showDetails && <Meals />}  
+          {showOrdersSummary && <OrderRegister onClose={closeOrders} onShowDetails={onShowDetails} /> }
+          {!showOrdersSummary && showDetails && <FullOrder onClose={onCloseDetails} /> }
           {orderCreated && Popup  }
         </main>
         
@@ -168,29 +174,9 @@ function App() {
         }
         {!isAuth && <Login onLogin={loginHandler} loading={authLoading} error={httpError} />}
      </CartProvider>
-    //</div>  
+    //</div>   
        
   );
  };
 
 export default App;
-
-
-/*
-<CartProvider>
-        {isAuth && <Fragment>
-        {cartIsShown && <Cart onClose={hideCartHandler} onCreateOrder={showOrderCreated} />}
-        <Header onShowCart={showCartHandler} onShowOrd={showOrders} onLogout={logoutHandler} showOrderSummary={showOrderSummary} showDetails={showDetails} onHideOrderSummary={closeOrders} />
-        
-        <main>
-          {!showOrderSummary && !showDetails && <Meals />}  
-          {showOrderSummary && <OrderRegister onShowDetails={onShowDetails} /> }
-          {!showOrderSummary && showDetails && <FullOrder onClose={onCloseDetails} /> }
-          {orderCreated && Popup  }
-        </main>
-        
-        </Fragment>
-        }
-        {!isAuth && <Login onLogin={loginHandler} loading={authLoading} error={httpError} />}
-      </CartProvider>
-*/

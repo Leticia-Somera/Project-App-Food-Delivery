@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import classes from './HeaderOrdersButton.module.css';
 
+
 const OrderIcon = () => {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" 
@@ -11,18 +12,52 @@ const OrderIcon = () => {
     );
   };
 
-const HeaderOrdersButton = props => {     
+const HeaderOrdersButton = props => {    
     
     return (
         <Fragment>
+            {!props.showOrdersSummary && !props.showDetails 
+            && <button 
+            className={classes['button--alt']} 
+            onClick={props.onClick}>
+                <span className={classes.icon}>
+                    <OrderIcon />
+                </span>
+                <span className={classes.label}>Orders</span>
+            </button> }
+            {!props.showOrdersSummary && props.showDetails 
+            && <button 
+            className={classes['button--alt']} 
+            onClick={props.onClick}>
+                    <span className={classes.icon}>
+                        <OrderIcon />
+                    </span>
+                    <span className={classes.label}>Orders</span>
+            </button> }
+            {props.showOrdersSummary && <button className={classes['button--alt']} onClick={props.onHideOrdersSummary}>
+                    <span className={classes.label}>Home</span>
+            </button>}            
+        </Fragment>        
+    )
+}
+
+export default HeaderOrdersButton;
+
+/*
+<Fragment>
             {!props.showOrdersSummary && !props.showDetails && <button 
-            className={classes.button} 
-            onClick={props.onClick} 
-            >  
+            className={btnClasses} 
+            onClick={props.onClick} >  
             <span className={classes.icon}>
                 <OrderIcon />
             </span>          
             <span className={classes.label}>Orders</span>            
+            </button>} 
+
+            {!props.showOrdersSummary && props.showDetails && <button 
+            className={classes.button} 
+            onClick={props.onClick} >  
+            <span className={classes.label}>Orders</span>
             </button>}
 
             {props.showOrdersSummary && <button 
@@ -32,7 +67,4 @@ const HeaderOrdersButton = props => {
             <span className={classes.label}>Home</span>            
             </button>}
         </Fragment>        
-    )
-}
-
-export default HeaderOrdersButton;
+        */

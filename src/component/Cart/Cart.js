@@ -3,10 +3,9 @@ import Modal from '../UI/Modal';
 import classes from './Cart.module.css';
 import CartContext from '../../store/cart-context';
 import CartItem from './CartItem';
-//import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 const Cart = props => {
-    //const [isConfirmed, setIsConfirmed] = useState(false);
     const cartCtx = useContext(CartContext);
     const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
     const hasItems = cartCtx.items.length > 0;
@@ -17,10 +16,10 @@ const Cart = props => {
 
     const submitedOrderHandler = () => {
 
-        /*Swal.fire({
+        Swal.fire({
             icon: 'success',
             title: 'Your order has been successfully created'
-          });*/
+          });
 
         let items = [];
         let orderDate = new Date();
@@ -37,7 +36,6 @@ const Cart = props => {
         })
         
         const newOrder = {
-           // "order": {
                 "status": "CREATED",
                 "total_price": cartCtx.totalAmount,
                 "order_date": orderDate.toISOString().split('T')[0],
@@ -45,17 +43,13 @@ const Cart = props => {
                     "id": 1
                 },
                 "orderProducts": items
-          //  }  
-        };
-        
-        //console.log(newOrder);
- 
-        //setIsConfirmed(true); 
+        };               
         
         fetch('http://localhost:8000/order', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
             },
             body: JSON.stringify(newOrder)            
         }).then(response => {
@@ -68,13 +62,10 @@ const Cart = props => {
                     allItems = allItems - 1;
                     
                 }
-            });
+            }); 
 
             cartCtx.totalAmount = 0;
             props.onClose();
-           // props.SubmitedOrderHandler();
-           // console.log(response.json());
-           // return response.json();
 
         });
     };

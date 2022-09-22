@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import OrderItem from "./OrderItem";
 import Card from '../UI/Card';
+import Modal from "../UI/Modal";
 import classes from './OrderItem.module.css';
 
 const OrderRegister = props => {
@@ -9,22 +10,24 @@ const OrderRegister = props => {
 
 
 const orderList = useCallback(() => {
-    fetch('http://localhost:8000/orders' + localStorage.getItem('idUser'), {
+    fetch('http://localhost:8000/orders/user/' + localStorage.getItem('idCustomer'), {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
         }, 
-        mode:'cors'
+        //mode:'no-cors'
     }).then(response => {
         if(!response.ok) {
-            throw new Error('Sorry! the order could not be readSorry! it was not possible to read the Order');
+            throw new Error('Sorry! it was not possible to read the Order');
         }
+        //console.log('order list: ' + response.json());
         return response.json();
     }).then(data => {
-        console.log(data);
+        //console.log(data);
         setOrders(data);
         return data;
     }).catch(error => {
+        //console.log('id: ' + localStorage.getItem('idCustomer'));
         setHttpError(error.message);
     })
 }, []);
@@ -33,24 +36,30 @@ useEffect(() => {
     orderList();
 }, [orderList]);
 
+
 const ordList = orders.map(order => {
-    return (
+
+    return (        
         <OrderItem 
-        id={order.idOrder}
-        key={order.idOrder}
+        id={order.id}
+        key={order.id}
         orderStatus={order.status}
         orderDate={order.order_date}
-        totalAmount={order.totalAmount}
-        onShowDetails={props.onShowDetails} />
+        totalAmount={order.total_price}
+        onShowDetails={props.onShowDetails} >
+        </OrderItem>
     );
 });
 
 return (
-    <section className={classes.meals}>
-        <Card>
-            <ul>{ordList}</ul>
-        </Card>
-    </section>
+    <Modal onClick={props.onClose} >
+            <Card>
+                <ul>{ordList}</ul>
+            </Card>           
+            <div className={classes.actions}>
+                <button className={classes['button--alt']} onClick={props.onClose}>Close</button>                
+            </div>          
+    </Modal>
 );
 }
 

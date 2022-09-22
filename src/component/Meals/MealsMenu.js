@@ -9,7 +9,7 @@ const MealsMenu = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState();
 
-  console.log(localStorage.getItem('token'));
+  //console.log(localStorage.getItem('token'));
   const fetchMeals = useCallback(() => { 
     fetch('http://localhost:8000/products', {
       headers: {
@@ -23,7 +23,7 @@ const MealsMenu = () => {
       }
         return response.json();
       }).then(data => {
-      console.log(data)
+      //console.log(data)
       setMeals(data);
       setIsLoading(false);
       return (data);
