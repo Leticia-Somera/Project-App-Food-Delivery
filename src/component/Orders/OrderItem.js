@@ -22,20 +22,21 @@ const OrderItem = props => {
     const price = `$${props.totalAmount.toFixed(2)}`;
 
     return (
-        <div className={classes['order-items']}>      
-            <ul >
+        <div>      
+            <ul className={classes['order-items']}>
+                <div className={classes['order-header']} >
                 <div className={classes.icon}>
                     <OrderIcon  />
+                </div>               
+                <h3 className={classes['order-num']} >Order No.  {props.id}</h3>                
+                <button onClick={showFullOrderHandler} id={props.id}>Show more...</button>
                 </div>
-                <div className={classes['order-info']}>
-                    <h3>Order No. {props.id}</h3>
+                
+                <div>                    
                     <p><span>Date: </span>{props.orderDate}</p>
                     <p><span>Total: </span>{price}</p>
                     <p><span>Status: </span>{props.orderStatus}</p>
-                </div>
-                <div className={classes['order-info']}>
-                    <button onClick={showFullOrderHandler} id={props.id}>Show more...</button>
-                </div>
+                </div>                
             </ul>
         </div>
     );

@@ -1,15 +1,41 @@
 .error {
-    text-align: center;
-    color: red;
-  }
+  text-align: center;
+  color: red;
+}
+
+.order-title{
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: #FF710D;
+}
+
+.order-detail ul {
+  border: none;
+}
+
+.all-products {
+  margin: 0 ;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+  border:none;
+  justify-content: space-between;
+  /*margin-left: 3rem;*/
+}
 
 .total {
-display: flex;
-justify-content: space-between;
-align-items: center;
+  text-align: center;
 font-weight: bold;
-font-size: 1.5rem;
-margin: 1rem 0;
+font-size: 1rem;
+padding: 1rem 
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .actions button {

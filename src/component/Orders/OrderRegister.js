@@ -52,7 +52,8 @@ const ordList = orders.map(order => {
 });
 
 return (
-    <Modal onClick={props.onClose} >
+    <Modal onClick={props.onClose}  className={classes.register}>
+        <h2 className={classes.title}>Orders List</h2>
             <Card>
                 <ul>{ordList}</ul>
             </Card>           

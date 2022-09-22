@@ -6,13 +6,12 @@ const OrderDetailItem = (props) => {
 
     return (
         <li>
-            <div>
-                <h3>{props.name}</h3>                
+            <div className={classes['order-item']} >
+                <h3 >{props.name}: </h3>                
                 <p>
                     <span className={classes.amount}>{props.amount} x </span>                  
                     <span className={classes.price}>{price}</span>
-                </p>
-                
+                </p>                
             </div>
         </li>
     );

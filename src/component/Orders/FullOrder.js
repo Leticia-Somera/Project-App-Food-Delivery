@@ -7,13 +7,13 @@ const FullOrder = props => {
     const [orderProducts, setOrderProducts] = useState([]);
     const [httpError, setHttpError] = useState(null);
 
-    const orderProductList = useCallback(() => {
+    const orderProductsList = useCallback(() => {
         fetch('http://localhost:8000/order/' + localStorage.getItem('id') + '/fullOrder', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token'),
                 'Access-Control-Request-Method': 'GET',
-                //'Access-Control-Request-Headers': 'Content-Type, Authorization'            
+                'Access-Control-Request-Headers': 'Content-Type, Authorization'            
         }}).then(response => {
             console.log('id local: ' +localStorage.getItem('id'));
         if(!response.ok) {
@@ -22,9 +22,9 @@ const FullOrder = props => {
         //console.log('Response reading OK');
         return response.json();
     }).then(data => {
-        //console.log(data._embedded.orderProductList);
-        setOrderProducts(data._embedded.orderProductList);
-        return (data._embedded.orderProductList);
+        console.log('data: "' + data + '"');
+        setOrderProducts(data);
+        return (data);
         /*console.log(data.orderItemsList);
         setOrderItems(data.orderProducts);
         return (data.orderProducts);*/
@@ -34,8 +34,8 @@ const FullOrder = props => {
     })}, []);
 
 useEffect(() => {
-    orderProductList();
-}, [orderProductList]);
+    orderProductsList();
+}, [orderProductsList]);
 
 const cancelOrder = () => {
     fetch('http://localhost:8000/order/' + localStorage.getItem('id'), {
@@ -56,26 +56,31 @@ const cancelOrder = () => {
     });
 }
 
-const orderProductsAll = orderProducts.map(item => {
+const orderProductsAll = orderProducts.map(product => {
     return (
-        <OrderDetailItem 
-        key={item.id}
-        name={item.product.name}
-        price={item.product.price}    
-        amount={item.num_products}    
+        <OrderDetailItem   
+        className={classes['order-detail']}     
+        key={product.id}
+        name={product.product.name}
+        price={product.product.price}    
+        amount={product.num_products}    
         />        
     );
 });
 
 return (
-    <Modal onClick={props.onClose}>
-        <h3>Details Order No. {localStorage.getItem('id')} </h3>
-        {httpError && <div className={classes.error} >Sorry! it was not possible to read Order details</div>}
-        {!httpError && <ul>{orderProductsAll} </ul>}
-        <div className={classes.total}>
-            <p>Total Amount {localStorage.getItem('totalAmount')}</p>
+    <Modal onClick={props.onClose} >
+        <h2 className={classes['order-title']} >Details Order No. {localStorage.getItem('id')} </h2>
+        <div className={classes['all-products']}>
+            {httpError && <div className={classes.error} >Sorry! it was not possible to read Order details</div>}
+            
+            {!httpError && <ul>{orderProductsAll} </ul>}
+            <div className={classes.total}>
+                <p >Total: ${localStorage.getItem('totalAmount')}</p>
+            </div>
         </div>
-        <div>
+        
+        <div className={classes.buttons} >
             <button className={classes['button--alt']} onClick={props.onClose} >Close</button>
             <button className={classes.button} onClick={cancelOrder}>Cancel</button>
         </div>

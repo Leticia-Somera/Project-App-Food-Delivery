@@ -1,26 +1,8 @@
 .order-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #ffa900;
-    padding: 1rem 0;
-    margin: 1rem 0;
-  }
-  
-  .order-item h2 {
-    margin: 0 0 0.5rem 0;
-    color: #000000;
-  }
-  
-  .summary {
-    width: 10rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
   }
   
   .price {
-    font-weight: bold;
     color: #E83F00;
   }
   
@@ -30,10 +12,7 @@
   }
   
   .amount {
-    font-weight: bold;
-    border: 1px solid #ccc;
-    padding: 0.25rem 0.75rem;
-    border-radius: 6px;
-    color: #000000;
+    margin-left: 3rem;
+    /*padding: 0.25rem 0.75rem;*/
   }
   
