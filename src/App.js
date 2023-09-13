@@ -159,7 +159,8 @@ function App() {
     //<div>
      
     <CartProvider>
-        {isAuth && <Fragment>
+        {/* {isAuth &&  */}
+        <Fragment>
         {cartIsShown && <Cart onClose={hideCartHandler} onCreateOrder={showOrderCreated} />}
         <Header onShowCart={showCartHandler} onShowOrd={showOrders} onShowLogout={logoutHandler} showOrdersSummary={showOrdersSummary} showDetails={showDetails} onHideOrdersSummary={closeOrders} />
         
@@ -171,8 +172,8 @@ function App() {
         </main>
         
         </Fragment>
-        }
-        {!isAuth && <Login onLogin={loginHandler} loading={authLoading} error={httpError} />}
+        {/* } */}
+        {/* {!isAuth && <Login onLogin={loginHandler} loading={authLoading} error={httpError} />} */}
      </CartProvider>
     //</div>   
        
